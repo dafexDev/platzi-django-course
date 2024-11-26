@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: platzi_django_course_postgres
+    env_file:
+      - ./.docker/envs/.env.postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - .docker/volumes/postgres:/var/lib/postgresql/data
+    networks:
+      - platzi_django_course_network
+  postgres_pgadmin:
+    image: dpage/pgadmin4
+    container_name: platzi_django_course_pgadmin
+    env_file:
+      - ./.docker/envs/.env.pgadmin4
+    ports:
+      - "9000:80"
+    volumes:
+      - .docker/volumes/pgadmin:/var/lib/pgadmin
+    networks:
+      - platzi_django_course_network
+networks:
+  platzi_django_course_network:
