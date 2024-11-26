@@ -20,7 +20,7 @@ def car_list(request):
     context['delete_form'] = delete_form
     context['car_list'] = car_list
     
-    return render(request, 'cars/car_list.html', context)
+    return render(request, 'cars/list.html', context)
 
 
 def add_car(request):
@@ -32,6 +32,6 @@ def add_car(request):
     else:
         form = AddCarForm()
     
-    return render(request, 'cars/add_car.html', {
+    return render(request, 'cars/add.html', {
         'form': form
     })
