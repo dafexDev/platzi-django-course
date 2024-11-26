@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+import platzi_django_course.apps.cars.views as car_views
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('cars/', car_views.car_list, name='car_list'),
+    path('cars/add/', car_views.add_car, name='add_car')
 ]
