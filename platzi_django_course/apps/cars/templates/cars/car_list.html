@@ -7,11 +7,24 @@
     </head>
     <body>
         <h1>Car List</h1>
-        <ul>
-            {% for car in car_list %}
-            <li><strong>{{ car.id }}</strong> {{ car.name }}</li>
-            {% endfor %}
-        </ul>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in car_list %}
+                <tr>
+                    <td>{{ car.id }}</td>
+                    <td>{{ car.name }}</td>
+                    <td>{% if car.year %}{{ car.year }}{% endif%}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         <h2>Delete car:</h2>
         <form action="" method="post">
             {% csrf_token %}

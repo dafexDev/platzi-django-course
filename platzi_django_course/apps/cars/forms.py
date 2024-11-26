@@ -1,4 +1,5 @@
 from django import forms
+import datetime
 
 from .models import Car
 
@@ -6,7 +7,16 @@ from .models import Car
 class AddCarForm(forms.ModelForm):
     class Meta:
         model = Car
-        fields = ('name',)
+        fields = ('name','year')
+        
+    def clean_year(self):
+        year = self.cleaned_data.get('year')
+        if year is not None:
+            if year < 1886: # First car year
+                raise forms.ValidationError("The year cannot be earlier than 1886.")
+            if year > datetime.date.today().year:
+                raise forms.ValidationError("The year cannot be in the future.")
+        return year
 
 
 class DeleteCarForm(forms.Form):
