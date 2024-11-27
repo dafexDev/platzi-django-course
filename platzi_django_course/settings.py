@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'platzi_django_course.apps.common.middleware.AddCsrfTokenToContextMiddleware',
 ]
 
 ROOT_URLCONF = 'platzi_django_course.urls'
