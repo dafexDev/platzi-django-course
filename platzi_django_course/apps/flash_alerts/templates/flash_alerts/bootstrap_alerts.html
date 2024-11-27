@@ -1,0 +1,38 @@
+{% for alert in flash_alerts %}
+{% if alert.type == 'success' %}
+<div class="alert alert-success alert-dismissible show w-100">
+    <span>
+        <i class="bi bi-check-circle-fill me-1"></i> {{ alert.message }}
+    </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% elif alert.type == 'warning' %}
+<div class="alert alert-warning alert-dismissible show w-100">
+    <span>
+        <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ alert.message }}
+    </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% elif alert.type == 'error' %}
+<div class="alert alert-danger alert-dismissible show w-100">
+    <span>
+        <i class="bi bi-exclamation-circle-fill me-1"></i> {{ alert.message}}
+    </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% elif alert.type == 'info' %}
+<div class="alert alert-info alert-dismissible show w-100">
+    <span>
+        <i class="bi bi-info-circle-fill me-1"></i> {{ alert.message }}
+    </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% elif alert.type == 'debug' %}
+<div class="alert alert-light alert-dismissible show w-100">
+    <span>
+        <i class="bi bi-bug-fill me-1"></i> {{ alert.message }}
+    </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endfor %}

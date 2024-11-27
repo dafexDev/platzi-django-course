@@ -1,0 +1,27 @@
+<style>
+    .flash-success {
+        color: green;
+    }
+
+    .flash-warning {
+        color: yellow;
+    }
+
+    .flash-error {
+        color: red;
+    }
+
+    .flash-info {
+        color: aqua;
+    }
+
+    .flash-debug {
+        color: blueviolet;
+    }
+</style>
+
+<ul>
+    {% for alert in flash_alerts %}
+    <li class="flash-{{ alert.type }}">{{ alert.message }}</li>
+    {% endfor %}
+</ul>
