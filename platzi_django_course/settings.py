@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'platzi_django_course.apps.common',
     'platzi_django_course.apps.cars',
 ]
 
