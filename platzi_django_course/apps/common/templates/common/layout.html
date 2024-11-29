@@ -23,11 +23,13 @@
     <script
       src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script>
-      $.ajaxSetup({
-        headers: {
-          'X-CSRFToken': $('meta[name="csrf_token"]').attr('content')
-        }
-      });
+      $(function () {
+        $.ajaxSetup({
+          beforeSend(xhr) {
+            xhr.setRequestHeader('X-CSRFToken', $('meta[name="csrf_token"]').attr('content'));
+          },
+        });
+      })
     </script>
     {% block script_libs %}
     {% endblock %}
