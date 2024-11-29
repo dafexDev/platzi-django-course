@@ -1,37 +1,37 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="csrf_token" content="{{ csrf_token }}">
-        {% block head_pre_styles %}
-        {% endblock %}
-        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
-        {% block head %}
-        {% endblock %}
-        <title>{% block title %}{% endblock %}</title>
-    </head>
-    <body>
-        {% block header %}
-        {% endblock %}
-        {% block content %}
-        {% endblock %}
-        {% block footer %}
-        {% endblock %}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf_token" content="{{ csrf_token }}">
+    {% block head_pre_styles %}
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    {% block head %}
+    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    {% block header %}
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+    {% block footer %}
+    {% endblock %}
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-        <script>
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRFToken': $('meta[name="csrf_token"]').attr('content')
-                }
-            });
-        </script>
-        {% block script_libs %}
-        {% endblock %}
-        {% block scripts %}
-        {% endblock %}
-    </body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script>
+      $.ajaxSetup({
+        headers: {
+          'X-CSRFToken': $('meta[name="csrf_token"]').attr('content')
+        }
+      });
+    </script>
+    {% block script_libs %}
+    {% endblock %}
+    {% block scripts %}
+    {% endblock %}
+  </body>
 </html>
