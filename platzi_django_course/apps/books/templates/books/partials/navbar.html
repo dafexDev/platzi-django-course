@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <span class="navbar-brand">Platzi Django Course</span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#headerNavbarCollapse"
+      aria-controls="headerNavbarCollapse"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="headerNavbarCollapse">
+      <ul class="navbar-nav me-auto">
+        {% url 'books:list' as book_list_url %}
+        {% url 'books:publisher_list' as publisher_list_url %}
+        {% url 'books:author_list' as author_list_url %}
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == book_list_url %}active{% endif %}"
+            href="{% url 'books:list' %}">Books
+            {% if request.path == book_list_url %}
+            <span class="visually-hidden">(current)</span>
+            {% endif %}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == publisher_list_url %}active{% endif %}"
+            href="{% url 'books:publisher_list' %}">Publishers
+            {% if request.path == publisher_list_url %}
+            <span class="visually-hidden">(current)</span>
+            {% endif %}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == author_list_url %}active{% endif %}"
+            href="{% url 'books:author_list' %}">Authors
+            {% if request.path == author_list_url %}
+            <span class="visually-hidden">(current)</span>
+            {% endif %}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

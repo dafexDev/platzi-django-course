@@ -1,0 +1,15 @@
+insert into public.books_publisher (name, address) values ('Skinder', '2 Hooker Court');
+insert into public.books_publisher (name, address) values ('Quinu', '8 Sherman Park');
+insert into public.books_publisher (name, address) values ('Rhyzio', '42 Green Ridge Place');
+insert into public.books_publisher (name, address) values ('Edgetag', '207 Northridge Terrace');
+insert into public.books_publisher (name, address) values ('Layo', '9 East Pass');
+insert into public.books_publisher (name, address) values ('Wikibox', '586 Pawling Court');
+insert into public.books_publisher (name, address) values ('Voonyx', '22 Summit Lane');
+insert into public.books_publisher (name, address) values ('Lajo', '74210 Coolidge Center');
+insert into public.books_publisher (name, address) values ('Wordware', '6 Knutson Alley');
+insert into public.books_publisher (name, address) values ('Skibox', '09811 Mendota Alley');
+insert into public.books_publisher (name, address) values ('Youbridge', '83758 Huxley Terrace');
+insert into public.books_publisher (name, address) values ('Oyondu', '86 Messerschmidt Way');
+insert into public.books_publisher (name, address) values ('Twitterbridge', '40 Parkside Hill');
+insert into public.books_publisher (name, address) values ('Kayveo', '51716 Ramsey Trail');
+insert into public.books_publisher (name, address) values ('Gigashots', '21 Dunning Terrace');

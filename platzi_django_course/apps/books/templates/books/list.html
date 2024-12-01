@@ -1,0 +1,319 @@
+{% extends 'books/layout.html' %}
+{% load template_filters flash_alerts %}
+
+{% block title %}Books{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  {% show_flash_alerts 'bootstrap' %}
+
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2 class="mb-0">Books</h2>
+    </div>
+    <div class="col-md-4 d-flex justify-content-end">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#create-book-modal">
+        <i class="bi bi-plus-circle-fill me-1"></i> Add Book
+      </button>
+    </div>
+  </div>
+
+  <table class="table table-striped table-bordered table-fixed mb-4">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Publisher</th>
+        <th>Publication Year</th>
+        <th>Authors</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books_page %}
+      <tr>
+        <td>{{ book.id }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.publisher.name }}</td>
+        <td>{{ book.publication_date|date:'D, d M, Y' }}</td>
+        <td>{{ book.authors.all|join:', ' }}</td>
+        <td>
+          <div class="d-flex justify-content-around gap-1">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+              data-bs-target="#update-book-modal--{{ book.id }}">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button type="button" onclick="deleteBook('{{ book.id }}')" class="btn btn-danger">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <nav aria-label="Page Navigation">
+    <ul class="pagination justify-content-center">
+      {% if books_page.has_previous %}
+      <li class="page-item">
+        <a class="page-link"
+          href="?page={{ books_page.previous_page_number }}"
+          aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% for num in books_page.paginator.page_range %}
+      <li
+        class="page-item {% if books_page.number == num %}active{% endif %}">
+        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+      </li>
+      {% endfor %}
+
+      {% if books_page.has_next %}
+      <li class="page-item">
+        <a class="page-link"
+          href="?page={{ books_page.next_page_number }}"
+          aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+
+<div class="modal fade" id="create-book-modal" tabindex="-1"
+  aria-labelledby="create-book-modal--title" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="create-book-modal--title">Create Book</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <form action="{% url 'books:list' %}" method="post" id="create-book-form">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="create-book-form--title" class="form-label">Title</label>
+            <input type="text"name="title"
+              class="form-control"
+              id="create-book-form--title">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="create-book-form--publication_date"
+              class="form-label">Publication Date
+            </label>
+            <input type="date" name="publication_date"
+              class="form-control"
+              id="create-book-form--publication_date">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="create-book-form--publisher"
+              class="form-label">Publisher</label>
+            <select name="publisher"
+              class="form-control"
+              id="create-book-form--publisher">
+              <option value>Choose a publisher</option>
+              {% for publisher in publishers %}
+              <option value="{{ publisher.id }}">
+                {{ publisher.name }}
+              </option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="create-book-form--authors"
+              class="form-label">Authors</label>
+            <select name="authors"
+              class="form-control"
+              id="create-book-form--authors" multiple>
+              {% for author in authors %}
+              <option value="{{ author.id }}">
+                {{ author.name }}
+              </option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% for book in books_page %}
+<div class="modal fade" id="update-book-modal--{{ book.id }}" tabindex="-1"
+  aria-labelledby="update-book-modal--{{ book.id }}--title" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="update-book-modal--{{ book.id }}--title">
+          Update Book <{{ book.id }}>
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <form action="{% url 'books:book' book.id %}" method="post"
+        id="update-book-form--{{ book.id }}"
+        data-book-id="{{ book.id }}">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="update-book-form--{{ book.id }}--title" class="form-label">Title</label>
+            <input type="text" name="title"
+              class="form-control"
+              id="update-book-form--{{ book.id }}--title"
+              value="{{ book.title }}">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="update-book-form--{{ book.id }}--publication_date">Publication
+              Date</label>
+            <input type="date" name="publication_date"
+              class="form-control"
+              id="update-book-form--{{ book.id }}--publication_date"
+              value="{{ book.publication_date|date:'Y-m-d' }}">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="update-book-form--{{ book.id }}--publisher"
+              class="form-label">Publisher</label>
+            <select name="publisher"
+              class="form-control"
+              id="update-book-form--{{ book.id }}--publisher">
+              <option value>Choose a publisher</option>
+              {% for publisher in publishers %}
+              <option value="{{ publisher.id }}" {% if book.publisher.id == publisher.id %}selected{%endif %}>
+                {{ publisher.name }}
+              </option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="update-book-form--{{ book.id }}--authors"
+              class="form-label">Authors</label>
+            <select name="authors"
+              class="form-control"
+              id="update-book-form--{{ book.id }}--authors" multiple>
+              {% for author in authors %}
+              <option value="{{ author.id }}" {% if author.id in book_with_author_ids|get_item:book.id %}selected{% endif %}>
+                {{ author.name }}
+              </option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $("#create-book-form").submit(function (e) {
+    e.preventDefault();
+
+    const form = $(this);
+
+    $.ajax({
+      url: form.attr('action'),
+      method: 'post',
+      data: form.serialize(),
+      success() {
+        window.location.reload();
+      },
+      error(xhr) {
+        if (xhr.status == 422) {
+          const body = xhr.responseJSON;
+          if (body.errors) {
+            const fields = Object.keys(body.errors);
+
+            fields.forEach(function (field) {
+              const fieldElement = $(`#create-book-form--${field}`);
+              fieldElement.addClass('is-invalid');
+
+              const errorMessages = body.errors[field];
+              const feedbackElement = fieldElement.closest('.mb-3').find('.invalid-feedback');
+              feedbackElement.html('');
+
+              errorMessages.forEach(function (message) {
+                feedbackElement.append(`<p>${message}</p>`);
+              });
+            });
+          }
+        } else {
+          window.loaction.reload();
+        }
+      }
+    });
+  });
+
+  $(document).on('submit', 'form[id^="update-book-form--"]', function (e) {
+    e.preventDefault();
+
+    const form = $(this);
+    const bookId = form.data('book-id');
+
+    $.ajax({
+      url: form.attr('action'),
+      method: 'put',
+      data: form.serialize(),
+      success() {
+        window.location.reload();
+      },
+      error(xhr) {
+        if (xhr.status == 422) {
+          const body = xhr.responseJSON;
+          if (body.errors) {
+            const fields = Object.keys(body.errors);
+
+            fields.forEach(function (field) {
+              const fieldElement = $(`#update-book-form--${bookId}--${field}`);
+              fieldElement.addClass('is-invalid');
+
+              const errorMessages = body.errors[field];
+              const feedbackElement = fieldElement.closest('.mb-3').find('.invalid-feedback');
+              feedbackElement.html('');
+
+              errorMessages.forEach(function (message) {
+                feedbackElement.append(`<p>${message}</p>`);
+              });
+            });
+          }
+        } else {
+          window.loaction.reload();
+        }
+      }
+    });
+  });
+
+  function deleteBook(id) {
+    let url = '{% url "books:book" 0 %}'
+    url = url.replace('0', id);
+
+    $.ajax({
+      url,
+      method: 'delete',
+      complete() {
+        window.location.reload();
+      }
+    });
+  }
+</script>
+{% endblock %}

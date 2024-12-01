@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 import platzi_django_course.apps.cars.views as car_views
 
@@ -23,5 +23,6 @@ import platzi_django_course.apps.cars.views as car_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cars/', car_views.car_list, name='car_list'),
-    path('cars/add/', car_views.add_car, name='add_car')
+    path('cars/add/', car_views.add_car, name='add_car'),
+    path('books/', include('platzi_django_course.apps.books.urls', namespace='books')),
 ]

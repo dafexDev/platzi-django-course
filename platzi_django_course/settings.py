@@ -16,7 +16,7 @@ import os
 
 try:
     from dotenv import load_dotenv
-    
+
     load_dotenv()
 except ImportError:
     pass
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'platzi_django_course.apps.common',
     'platzi_django_course.apps.flash_alerts',
     'platzi_django_course.apps.cars',
+    'platzi_django_course.apps.books',
 ]
 
 MIDDLEWARE = [
